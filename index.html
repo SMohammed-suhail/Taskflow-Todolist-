@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Professional Task Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1>TaskFlow</h1>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Views</h3>
+                    <button class="nav-item active" data-view="list">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Tasks</span>
+                        <span class="task-count" id="taskCount">0</span>
+                    </button>
+                    <button class="nav-item" data-view="kanban">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="7" height="3" stroke="currentColor" stroke-width="2"/>
+                            <rect x="3" y="8" width="7" height="5" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="3" width="7" height="5" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="10" width="7" height="3" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Board</span>
+                    </button>
+                    <button class="nav-item" data-view="calendar">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Calendar</span>
+                    </button>
+                    <button class="nav-item" data-view="analytics">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="12" y1="20" x2="12" y2="10" stroke="currentColor" stroke-width="2"/>
+                            <line x1="18" y1="20" x2="18" y2="4" stroke="currentColor" stroke-width="2"/>
+                            <line x1="6" y1="20" x2="6" y2="16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </button>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>Categories</h3>
+                    <div class="categories-list" id="categoriesList">
+                        <div class="category-item" data-category="work">
+                            <div class="category-color" style="background: var(--color-primary);"></div>
+                            <span>Work</span>
+                        </div>
+                        <div class="category-item" data-category="personal">
+                            <div class="category-color" style="background: var(--color-secondary);"></div>
+                            <span>Personal</span>
+                        </div>
+                        <div class="category-item" data-category="shopping">
+                            <div class="category-color" style="background: var(--color-accent);"></div>
+                            <span>Shopping</span>
+                        </div>
+                    </div>
+                    <button class="add-category-btn" id="addCategoryBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Add Category
+                    </button>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="pomodoro-widget" id="pomodoroWidget">
+                    <div class="pomodoro-circle">
+                        <svg class="pomodoro-progress" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="16" fill="none" stroke="var(--color-surface)" stroke-width="2"/>
+                            <circle cx="18" cy="18" r="16" fill="none" stroke="var(--color-primary)" stroke-width="2" 
+                                    stroke-dasharray="100.53" stroke-dashoffset="100.53" transform="rotate(-90 18 18)"/>
+                        </svg>
+                        <div class="pomodoro-time">25:00</div>
+                    </div>
+                    <div class="pomodoro-controls">
+                        <button class="pomodoro-btn" id="pomodoroPlay">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="pomodoro-btn" id="pomodoroReset">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12A9 9 0 0015 3H12M21 12A9 9 0 019 21H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h2 id="viewTitle">My Tasks</h2>
+                    <div class="stats">
+                        <span class="stat">
+                            <span class="stat-value" id="totalTasks">0</span>
+                            <span class="stat-label">Total</span>
+                        </span>
+                        <span class="stat">
+                            <span class="stat-value" id="completedTasks">0</span>
+                            <span class="stat-label">Done</span>
+                        </span>
+                        <span class="stat">
+                            <span class="stat-value" id="pendingTasks">0</span>
+                            <span class="stat-label">Pending</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <input type="text" placeholder="Search tasks..." id="searchInput">
+                    </div>
+                    <div class="filter-sort">
+                        <select id="filterSelect">
+                            <option value="all">All Tasks</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                            <option value="overdue">Overdue</option>
+                        </select>
+                        <select id="sortSelect">
+                            <option value="created">Created Date</option>
+                            <option value="priority">Priority</option>
+                            <option value="dueDate">Due Date</option>
+                            <option value="alphabetical">A-Z</option>
+                        </select>
+                    </div>
+                    <button class="add-task-btn" id="addTaskBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Add Task
+                    </button>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="views-container">
+                <!-- List View -->
+                <div class="view list-view active" id="listView">
+                    <div class="tasks-container" id="tasksContainer">
+                        <!-- Tasks will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Kanban Board View -->
+                <div class="view kanban-view" id="kanbanView">
+                    <div class="kanban-board">
+                        <div class="kanban-column" data-status="pending">
+                            <div class="column-header">
+                                <h3>To Do</h3>
+                                <span class="task-count">0</span>
+                            </div>
+                            <div class="column-tasks" id="pendingTasks"></div>
+                        </div>
+                        <div class="kanban-column" data-status="in-progress">
+                            <div class="column-header">
+                                <h3>In Progress</h3>
+                                <span class="task-count">0</span>
+                            </div>
+                            <div class="column-tasks" id="inProgressTasks"></div>
+                        </div>
+                        <div class="kanban-column" data-status="completed">
+                            <div class="column-header">
+                                <h3>Completed</h3>
+                                <span class="task-count">0</span>
+                            </div>
+                            <div class="column-tasks" id="completedTasksKanban"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar View -->
+                <div class="view calendar-view" id="calendarView">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" id="prevMonth">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <h3 id="currentMonth">January 2025</h3>
+                        <button class="calendar-nav" id="nextMonth">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be dynamically generated -->
+                    </div>
+                </div>
+
+                <!-- Analytics View -->
+                <div class="view analytics-view" id="analyticsView">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Productivity Overview</h3>
+                            <div class="progress-ring">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--color-surface)" stroke-width="8"/>
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--color-primary)" stroke-width="8" 
+                                            stroke-dasharray="339.29" stroke-dashoffset="203.57" transform="rotate(-90 60 60)"/>
+                                </svg>
+                                <div class="progress-text">
+                                    <span class="progress-value">65%</span>
+                                    <span class="progress-label">Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <h3>Weekly Progress</h3>
+                            <div class="chart-container">
+                                <canvas id="weeklyChart" width="300" height="200"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <h3>Category Distribution</h3>
+                            <div class="category-stats" id="categoryStats">
+                                <!-- Category stats will be generated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <h3>Achievements</h3>
+                            <div class="achievements-list">
+                                <div class="achievement earned">
+                                    <div class="achievement-icon">🏆</div>
+                                    <div class="achievement-info">
+                                        <h4>Task Master</h4>
+                                        <p>Complete 50 tasks</p>
+                                    </div>
+                                </div>
+                                <div class="achievement">
+                                    <div class="achievement-icon">⚡</div>
+                                    <div class="achievement-info">
+                                        <h4>Speed Demon</h4>
+                                        <p>Complete 10 tasks in one day</p>
+                                    </div>
+                                </div>
+                                <div class="achievement">
+                                    <div class="achievement-icon">🔥</div>
+                                    <div class="achievement-info">
+                                        <h4>Streak Champion</h4>
+                                        <p>7-day completion streak</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Task</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskTitle">Task Title</label>
+                        <input type="text" id="taskTitle" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskDescription">Description</label>
+                        <textarea id="taskDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskCategory">Category</label>
+                            <select id="taskCategory">
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="shopping">Shopping</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskPriority">Priority</label>
+                            <select id="taskPriority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDueDate">Due Date</label>
+                            <input type="date" id="taskDueDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskDueTime">Due Time</label>
+                            <input type="time" id="taskDueTime">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskTags">Tags (comma-separated)</label>
+                        <input type="text" id="taskTags" placeholder="urgent, meeting, client">
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Save Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fabBtn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
